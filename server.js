@@ -23,8 +23,9 @@ app.get("/", function (req, res) {
 app.get("/api/:date", function (req, res) {
   let dates = req.params.date
   let date = new Date(dates).toUTCString()
+  console.log(dates)
 
-  if(dates.length == 13){
+  if(dates.length == 13 && dates > 0){
    let convertedDate = new Date(parseInt(dates)).toUTCString()
 
     res.json({"unix": parseInt(dates), "utc": convertedDate})
@@ -34,8 +35,9 @@ app.get("/api/:date", function (req, res) {
     let unix = Date.parse(tempDate)
     let testIfInvalid = unix.toFixed()
 
-    if(testIfInvalid.length !== 13){
+    if(testIfInvalid.length != 13 && testIfInvalid == "NaN"){
       res.json({"error": "Invalid date"})
+      return 0
     }
 
     res.json({"unix": unix, "utc": date})
