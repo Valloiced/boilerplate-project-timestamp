@@ -21,24 +21,24 @@ app.get("/", function (req, res) {
 
 // your first API endpoint... 
 app.get("/api/:date", function (req, res) {
-  var dates = req.params.date
+  let dates = req.params.date
+  let date = new Date(dates.split("-")).toUTCString()
 
   if(dates.length == 13){
-    let convertedDate = new Date(parseInt(dates)).toString()
+   let convertedDate = new Date(parseInt(dates)).toUTCString()
 
     res.json({"unix": parseInt(dates), "utc": convertedDate})
-  } else{
+  } else {
     let tempDateArr = dates.split("-") 
-    let date = new Date(tempDateArr.join(","))
-    let utc = date.toString()
-    let unix = Date.parse(date)
+    let tempDate = new Date(tempDateArr.join(","))
+    let unix = Date.parse(tempDate)
     let testIfInvalid = unix.toFixed()
 
     if(testIfInvalid.length !== 13){
       unix = "error"
     }
 
-    res.json({"unix": unix, "utc": utc})
+    res.json({"unix": unix, "utc": date})
   }
 });
 
