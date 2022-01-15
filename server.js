@@ -26,21 +26,24 @@ app.get("/api/:date", function (req, res) {
   console.log(dates)
 
   if(dates.length == 13 && dates > 0){
+
    let convertedDate = new Date(parseInt(dates)).toUTCString()
 
     res.json({"unix": parseInt(dates), "utc": convertedDate})
-  } else {
-    let tempDateArr = dates.split("-") 
-    let tempDate = new Date(tempDateArr.join(","))
-    let unix = Date.parse(tempDate)
-    let testIfInvalid = unix.toFixed()
 
-    if(testIfInvalid.length != 13 && testIfInvalid == "NaN"){
-      res.json({"error": "Invalid date"})
-      return 0
-    }
+  } else if(date != "Invalid Date"){
+    let tempDate = new Date(dates)
+    let unix = tempDate.valueOf()
+    // let testIfInvalid = unix.toFixed()
+
+    // if(isNaN(unix)){
+    //   res.json({"error": "Invalid date"})
+    //   return 0
+    // }
 
     res.json({"unix": unix, "utc": date})
+  } else {
+    res.json({"error": "Invalid Date"})
   }
 });
 
