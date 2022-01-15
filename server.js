@@ -22,7 +22,7 @@ app.get("/", function (req, res) {
 // your first API endpoint... 
 app.get("/api/:date", function (req, res) {
   let dates = req.params.date
-  let date = new Date(dates.split("-")).toUTCString()
+  let date = new Date(dates).toUTCString()
 
   if(dates.length == 13){
    let convertedDate = new Date(parseInt(dates)).toUTCString()
@@ -35,7 +35,7 @@ app.get("/api/:date", function (req, res) {
     let testIfInvalid = unix.toFixed()
 
     if(testIfInvalid.length !== 13){
-      unix = "error"
+      res.json({"error": "Invalid date"})
     }
 
     res.json({"unix": unix, "utc": date})
@@ -47,7 +47,6 @@ app.get("/api/", (req, res) => {
 
   res.json({"unix": Date.parse(current), "utc": current.toString()})
 })
-
 
 // listen for requests :)
 var listener = app.listen(process.env.PORT || 3000, function () {
